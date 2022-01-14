@@ -5,8 +5,6 @@ use Horde\Http\RequestFactory;
 use Horde\Http\ResponseFactory;
 use Horde\Http\StreamFactory;
 use Horde\Http\Server\RampageRequestHandler;
-use Psr\Http\Message\ResponseInterface;
-use Horde\Http\Server\Middleware\Mock;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,32 +13,33 @@ class RampageRequestHandlerTest extends TestCase
 {
     public function testAddMiddleware()
     {
-
         $responseFactory = new ResponseFactory;
         $streamFactory = new StreamFactory;
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
-        $requestFactory = new RequestFactory();
-        //! $request = $requestFactory->createServerRequest('GET', 'https://www.horde.org');
-            //!TypeError: Argument 1 passed to Horde\Http\Server\RampageRequestHandler::addMiddleware()
-                //! must be an instance of Psr\Http\Server\MiddlewareInterface, instance of Horde\Http\ServerRequest given.
-        //Todo instead with mock, but how to use responseFactory in that context
-        //$request = new Mock(???);
-        $middlewareMock = $this->createMock(MiddlewareInterface::class);
-        $handler->addMiddleware($middlewareMock);
-        $next = $handler->nextMiddleware();
-        $this->assertInstanceOf(MiddlewareInterface::class, $next);
+        $middlewareMock1 = $this->createMock(MiddlewareInterface::class);
+        $middlewareMock1->n = 1;
+        $middlewareMock2 = $this->createMock(MiddlewareInterface::class);
+        $middlewareMock2->n = 2;
+        $middlewareMock3 = $this->createMock(MiddlewareInterface::class);
+        $middlewareMock3->n = 3;
+        $handler->addMiddleware($middlewareMock1);
+        $handler->addMiddleware($middlewareMock2);
+        $handler->addMiddleware($middlewareMock3);
+        $firstInNumber = $handler->nextMiddleware()->n;
+        $this->assertSame(1,$firstInNumber);
     }
 
     public function testSetPayloadHandler()
     {
-
         $responseFactory = new ResponseFactory;
         $streamFactory = new StreamFactory;
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
+        $serverRequestMock = $this->createMock(ServerRequestInterface::class);
         $requestHandlerMock = $this->createMock(RequestHandlerInterface::class);
         $handler->setPayloadHandler($requestHandlerMock);
-        //! how to test the payload?
-        $this->assertSame("???","???");
+        $requestHandlerMock->method('handle')->willReturn($responseFactory->createResponse());
+        $handled = $handler->handle($serverRequestMock);
+        $this->assertSame(200,$handled->getStatusCode());
     }
 
     public function testHandle()
@@ -48,14 +47,9 @@ class RampageRequestHandlerTest extends TestCase
 
         $responseFactory = new ResponseFactory;
         $streamFactory = new StreamFactory;
+        $requestFactory = new RequestFactory;
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
-        $serverRequestMock = $this->createMock(ServerRequestInterface::class);
-        $handled = $handler->handle($serverRequestMock);
-        //! may be not the best way to test this
-        $this->assertSame(null,$handled->body);
+        $handled = $handler->handle($requestFactory->createServerRequest('GET','www.test.de'));
+        $this->assertSame(404,$handled->getStatusCode());
     }
 }
-
-    //Todo public function addMiddleware(MiddlewareInterface $middleware): void
-    //Todo public function setPayloadHandler(RequestHandlerInterface $handler): void
-    //Todo public function handle(ServerRequestInterface $request): ResponseInterface
