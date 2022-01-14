@@ -27,6 +27,12 @@ class RampageRequestHandlerTest extends TestCase
         $handler->addMiddleware($middlewareMock3);
         $firstInNumber = $handler->nextMiddleware()->n;
         $this->assertSame(1,$firstInNumber);
+        $firstInNumber = $handler->nextMiddleware()->n;
+        $this->assertSame(2,$firstInNumber);
+        $firstInNumber = $handler->nextMiddleware()->n;
+        $this->assertSame(3,$firstInNumber);
+        $emptyStak = $handler->nextMiddleware();
+        $this->assertSame(null,$emptyStak);
     }
 
     public function testSetPayloadHandler()
@@ -42,6 +48,23 @@ class RampageRequestHandlerTest extends TestCase
         $this->assertSame(200,$handled->getStatusCode());
     }
 
+    public function testHandleWithSetMiddelware()
+    {
+        $responseFactory = new ResponseFactory;
+        $streamFactory = new StreamFactory;
+        $handler = new RampageRequestHandler($responseFactory, $streamFactory);
+        $serverRequestMock = $this->createMock(ServerRequestInterface::class);
+        $requestHandlerMock = $this->createMock(RequestHandlerInterface::class);
+        $middlewareMock = $this->createMock(MiddlewareInterface::class);
+        $handler->addMiddleware($middlewareMock);
+        $handler->setPayloadHandler($requestHandlerMock);
+        $requestHandlerMock->method('handle')->willReturn($responseFactory->createResponse());
+        $handled = $handler->handle($serverRequestMock);
+        $this->assertSame(null,$handled->getStatusCode());
+        $handled = $handler->handle($serverRequestMock);
+        $this->assertSame(200,$handled->getStatusCode());
+    }
+
     public function testHandle()
     {
 
@@ -51,5 +74,6 @@ class RampageRequestHandlerTest extends TestCase
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
         $handled = $handler->handle($requestFactory->createServerRequest('GET','www.test.de'));
         $this->assertSame(404,$handled->getStatusCode());
+        $this->assertSame('No Response by middleware or payload Handler',$handled->getReasonPhrase());
     }
 }
