@@ -1,6 +1,8 @@
 <?php
+
 namespace Horde\Http\Server\Test;
-use \PHPUnit\Framework\TestCase;
+
+use PHPUnit\Framework\TestCase;
 use Horde\Http\RequestFactory;
 use Horde\Http\ResponseFactory;
 use Horde\Http\StreamFactory;
@@ -13,8 +15,8 @@ class RampageRequestHandlerTest extends TestCase
 {
     public function testAddMiddleware()
     {
-        $responseFactory = new ResponseFactory;
-        $streamFactory = new StreamFactory;
+        $responseFactory = new ResponseFactory();
+        $streamFactory = new StreamFactory();
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
         $middlewareMock1 = $this->createMock(MiddlewareInterface::class);
         $middlewareMock1->n = 1;
@@ -26,54 +28,51 @@ class RampageRequestHandlerTest extends TestCase
         $handler->addMiddleware($middlewareMock2);
         $handler->addMiddleware($middlewareMock3);
         $firstInNumber = $handler->nextMiddleware()->n;
-        $this->assertSame(1,$firstInNumber);
+        $this->assertSame(1, $firstInNumber);
         $firstInNumber = $handler->nextMiddleware()->n;
-        $this->assertSame(2,$firstInNumber);
+        $this->assertSame(2, $firstInNumber);
         $firstInNumber = $handler->nextMiddleware()->n;
-        $this->assertSame(3,$firstInNumber);
+        $this->assertSame(3, $firstInNumber);
         $emptyStak = $handler->nextMiddleware();
-        $this->assertSame(null,$emptyStak);
+        $this->assertSame(null, $emptyStak);
     }
 
     public function testSetPayloadHandler()
     {
-        $responseFactory = new ResponseFactory;
-        $streamFactory = new StreamFactory;
+        $responseFactory = new ResponseFactory();
+        $streamFactory = new StreamFactory();
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
         $serverRequestMock = $this->createMock(ServerRequestInterface::class);
         $requestHandlerMock = $this->createMock(RequestHandlerInterface::class);
         $handler->setPayloadHandler($requestHandlerMock);
         $requestHandlerMock->method('handle')->willReturn($responseFactory->createResponse());
         $handled = $handler->handle($serverRequestMock);
-        $this->assertSame(200,$handled->getStatusCode());
+        $this->assertSame(200, $handled->getStatusCode());
     }
 
     public function testHandleWithSetMiddelware()
     {
-        $responseFactory = new ResponseFactory;
-        $streamFactory = new StreamFactory;
+        $responseFactory = new ResponseFactory();
+        $streamFactory = new StreamFactory();
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
         $serverRequestMock = $this->createMock(ServerRequestInterface::class);
-        $requestHandlerMock = $this->createMock(RequestHandlerInterface::class);
         $middlewareMock = $this->createMock(MiddlewareInterface::class);
+        $middlewareMock->method('process')->willReturn($responseFactory->createResponse(418));
         $handler->addMiddleware($middlewareMock);
-        $handler->setPayloadHandler($requestHandlerMock);
-        $requestHandlerMock->method('handle')->willReturn($responseFactory->createResponse());
         $handled = $handler->handle($serverRequestMock);
-        $this->assertSame(null,$handled->getStatusCode());
+        $this->assertSame(418, $handled->getStatusCode());
         $handled = $handler->handle($serverRequestMock);
-        $this->assertSame(200,$handled->getStatusCode());
+        $this->assertSame(404, $handled->getStatusCode());
     }
 
     public function testHandle()
     {
-
-        $responseFactory = new ResponseFactory;
-        $streamFactory = new StreamFactory;
-        $requestFactory = new RequestFactory;
+        $responseFactory = new ResponseFactory();
+        $streamFactory = new StreamFactory();
+        $requestFactory = new RequestFactory();
         $handler = new RampageRequestHandler($responseFactory, $streamFactory);
-        $handled = $handler->handle($requestFactory->createServerRequest('GET','www.test.de'));
-        $this->assertSame(404,$handled->getStatusCode());
-        $this->assertSame('No Response by middleware or payload Handler',$handled->getReasonPhrase());
+        $handled = $handler->handle($requestFactory->createServerRequest('GET', 'www.test.de'));
+        $this->assertSame(404, $handled->getStatusCode());
+        $this->assertSame('No Response by middleware or payload Handler', $handled->getReasonPhrase());
     }
 }
