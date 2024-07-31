@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Horde_Http_Server</name>
+ <channel>pear.horde.org</channel>
+ <summary>HTTP Request Handling Library adhering to PSR-15 standard. This evolved out of horde/controller.</summary>
+ <description>A PSR-15 compatible Server/RequestHandler implementation with limited ties to the Horde Framework.</description>
+ <lead>
+  <name>Ralf Lang</name>
+  <user>rlang</user>
+  <email>lang@b1-systems.de</email>
+  <active>yes</active>
+ </lead>
+ <date>2024-07-31</date>
+ <version>
+  <release>1.0.0alpha2</release>
+  <api>1.0.0alpha1</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.horde.org/licenses/bsd">BSD-2-Clause</license>
+ <notes>
+* Initial release.
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name=".github">
+    <dir name="workflows">
+     <file name="ci.yml" role="php" />
+     <file name="phpdoc.yml" role="php" />
+     <file name="release.yml" role="php" />
+     <file name="update-composer-json.yml" role="php" />
+     <file name="update-satis.yml" role="php" />
+    </dir> <!-- /.github/workflows -->
+   </dir> <!-- /.github -->
+   <dir name="doc">
+    <dir name="example">
+     <file name="example1.php" role="doc" />
+     <file name="example2.php" role="doc" />
+    </dir> <!-- /doc/example -->
+    <dir name="Horde">
+     <dir name="Http">
+      <dir name="Server">
+       <file name="CHANGES" role="doc" />
+      </dir> <!-- /doc/Horde/Http/Server -->
+     </dir> <!-- /doc/Horde/Http -->
+    </dir> <!-- /doc/Horde -->
+    <file name="components.conf" role="doc" />
+   </dir> <!-- /doc -->
+   <dir name="src">
+    <dir name="Middleware">
+     <file name="DefaultExceptionHandler.php" role="php" />
+     <file name="Gzip.php" role="php" />
+     <file name="Mock.php" role="php" />
+     <file name="Null.php" role="php" />
+     <file name="Responder.php" role="php" />
+    </dir> <!-- /src/Middleware -->
+    <file name="DefaultHandlerTrait.php" role="php" />
+    <file name="Exception.php" role="php" />
+    <file name="PayloadHandler.php" role="php" />
+    <file name="RampageRequestHandler.php" role="php" />
+    <file name="RequestBuilder.php" role="php" />
+    <file name="ResponseWriterInterface.php" role="php" />
+    <file name="ResponseWriterWeb.php" role="php" />
+    <file name="Runner.php" role="php" />
+   </dir> <!-- /src -->
+   <dir name="test">
+    <file name="bootstrap.php" role="test" />
+    <file name="RampageRequestHandlerTest.php" role="test" />
+    <file name="SimpleTest.php" role="test" />
+   </dir> <!-- /test -->
+   <file name=".php-cs-fixer.dist.php" role="php" />
+   <file name="LICENSE" role="doc" />
+   <file name="README.md" role="doc" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>7.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.7.0</min>
+   </pearinstaller>
+  </required>
+  <optional>
+   <extension>
+    <name>mbstring</name>
+   </extension>
+   <extension>
+    <name>zlib</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="workflows/ci.yml" name=".github/workflows/ci.yml" />
+   <install as="workflows/phpdoc.yml" name=".github/workflows/phpdoc.yml" />
+   <install as="workflows/release.yml" name=".github/workflows/release.yml" />
+   <install as="workflows/update-composer-json.yml" name=".github/workflows/update-composer-json.yml" />
+   <install as="workflows/update-satis.yml" name=".github/workflows/update-satis.yml" />
+   <install as="" name=".php-cs-fixer.dist.php" />
+   <install as="components.conf" name="doc/components.conf" />
+   <install as="example/example1.php" name="doc/example/example1.php" />
+   <install as="example/example2.php" name="doc/example/example2.php" />
+   <install as="CHANGES" name="doc/Horde/Http/Server/CHANGES" />
+   <install as="LICENSE" name="LICENSE" />
+   <install as="README.md" name="README.md" />
+   <install as="DefaultHandlerTrait.php" name="src/DefaultHandlerTrait.php" />
+   <install as="Exception.php" name="src/Exception.php" />
+   <install as="Middleware/DefaultExceptionHandler.php" name="src/Middleware/DefaultExceptionHandler.php" />
+   <install as="Middleware/Gzip.php" name="src/Middleware/Gzip.php" />
+   <install as="Middleware/Mock.php" name="src/Middleware/Mock.php" />
+   <install as="Middleware/Null.php" name="src/Middleware/Null.php" />
+   <install as="Middleware/Responder.php" name="src/Middleware/Responder.php" />
+   <install as="PayloadHandler.php" name="src/PayloadHandler.php" />
+   <install as="RampageRequestHandler.php" name="src/RampageRequestHandler.php" />
+   <install as="RequestBuilder.php" name="src/RequestBuilder.php" />
+   <install as="ResponseWriterInterface.php" name="src/ResponseWriterInterface.php" />
+   <install as="ResponseWriterWeb.php" name="src/ResponseWriterWeb.php" />
+   <install as="Runner.php" name="src/Runner.php" />
+   <install as="bootstrap.php" name="test/bootstrap.php" />
+   <install as="RampageRequestHandlerTest.php" name="test/RampageRequestHandlerTest.php" />
+   <install as="SimpleTest.php" name="test/SimpleTest.php" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0alpha2</release>
+    <api>1.0.0alpha1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2024-07-31</date>
+   <license uri="http://www.horde.org/licenses/bsd">BSD-2-Clause</license>
+   <notes>
+* Initial release.
+   </notes>
+  </release>
+ </changelog>
+</package>
