@@ -21,7 +21,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/bsd">BSD-2-Clause</license>
  <notes>
-* Initial release.
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -128,6 +128,22 @@
  <changelog>
   <release>
    <version>
+    <release>1.0.0alpha1</release>
+    <api>1.0.0alpha1</api>
+   </version>
+   <stability>
+    <release>dev</release>
+    <api>dev</api>
+   </stability>
+   <date>2021-10-12</date>
+   <license uri="http://www.horde.org/licenses/bsd">BSD-2-Clause</license>
+   <notes>
+* [rla] New Library spun off horde/controller originally by Chuck Hagenbuch and Mike Naberezny.
+* [rla] Implement PSR-15 Middleware and RequestHandler
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.0.0alpha2</release>
     <api>1.0.0alpha1</api>
    </version>
@@ -135,10 +151,10 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2024-07-31</date>
+   <date>2021-10-12</date>
    <license uri="http://www.horde.org/licenses/bsd">BSD-2-Clause</license>
    <notes>
-* Initial release.
+* |+
    </notes>
   </release>
  </changelog>

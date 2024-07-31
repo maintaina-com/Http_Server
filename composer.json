@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/http_server",
     "description": "HTTP Request Handling Library adhering to PSR-15 standard. This evolved out of horde/controller.",
     "type": "library",
@@ -12,11 +11,11 @@
             "role": "lead"
         }
     ],
-    "time": "2021-10-12",
+    "time": "2024-07-31",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://horde-satis.maintaina.com/"
+            "url": "https://horde-satis.maintaina.com"
         }
     ],
     "require": {
@@ -41,6 +40,11 @@
     "autoload-dev": {
         "psr-4": {
             "Horde\\Http\\Server\\Test\\": "test/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "horde/horde-installer-plugin": true
         }
     }
 }
