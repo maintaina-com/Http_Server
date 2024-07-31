@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/http_server",
     "description": "HTTP Request Handling Library adhering to PSR-15 standard. This evolved out of horde/controller.",
     "type": "library",
